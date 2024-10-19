@@ -1,8 +1,7 @@
 package com.crm.task1.model;
 
-import com.crm.task1.validation.ValidPaymentType;
 import jakarta.persistence.*;
-import org.hibernate.annotations.processing.Pattern;
+import jakarta.validation.constraints.Pattern;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,9 +18,21 @@ public class Transaction {
 
     private BigDecimal amount;
 
-    @ValidPaymentType
+    @Pattern(regexp = "(CASH|CARD|TRANSFER)", message = "Invalid payment type. Allowed values are: CASH, CARD, or TRANSFER.")
     private String paymentType;
     private LocalDateTime transactionDate;
+
+    public Transaction() {
+    }
+
+
+    public Transaction(Long id, Seller seller, BigDecimal amount, String paymentType, LocalDateTime transactionDate) {
+        this.id = id;
+        this.seller = seller;
+        this.amount = amount;
+        this.paymentType = paymentType;
+        this.transactionDate = transactionDate;
+    }
 
     public Long getId() {
         return id;

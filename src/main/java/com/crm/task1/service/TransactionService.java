@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +38,12 @@ public class TransactionService {
         }
 
         transaction.setSeller(seller.get());
-        transaction.setTransactionDate(LocalDateTime.now());
+
+        String paymentType = transaction.getPaymentType().toUpperCase();
+
+        if (!paymentType.equals("CASH") && !paymentType.equals("CARD") && !paymentType.equals("TRANSFER")){
+            throw new RuntimeException(paymentType + " is not a valid value, only CASH, CARD or TRANSFER are");
+        }
 
         return transactionRepository.save(transaction);
     }

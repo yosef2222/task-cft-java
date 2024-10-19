@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 public class Seller {
@@ -16,6 +17,18 @@ public class Seller {
     private String name;
     private String contactInfo;
     private LocalDateTime registrationDate;
+
+    public Seller() {
+    }
+
+
+    public Seller(Long id, String name, String contactInfo, LocalDateTime registrationDate) {
+        this.id = id;
+        this.name = name;
+        this.contactInfo = contactInfo;
+        this.registrationDate = registrationDate;
+    }
+
 
     public Long getId() {
         return id;
@@ -50,4 +63,21 @@ public class Seller {
     }
 
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Seller)) {
+            return false;
+        }
+        Seller other = (Seller) obj;
+        return Objects.equals(id, other.id) && Objects.equals(name, other.name) &&
+                Objects.equals(contactInfo, other.contactInfo) && Objects.equals(registrationDate, other.registrationDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, contactInfo, registrationDate);
+    }
 }
